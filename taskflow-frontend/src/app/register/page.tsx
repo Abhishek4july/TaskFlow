@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -12,10 +11,12 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -50,6 +51,8 @@ export default function RegisterPage() {
           ? err.message
           : 'Something went wrong',
       );
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -91,15 +94,14 @@ export default function RegisterPage() {
           className="w-full border p-3 rounded-lg text-gray-900"
         />
 
-        {error && (
-          <p className="text-red-600">{error}</p>
-        )}
+        {error && <p className="text-red-600">{error}</p>}
 
         <button
           type="submit"
-          className="w-full cursor-pointer bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+          disabled={loading}
+          className="w-full cursor-pointer bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Register
+          {loading ? 'Registering...' : 'Register'}
         </button>
 
         <p className="text-center text-sm text-gray-600">
