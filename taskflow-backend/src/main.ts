@@ -16,9 +16,12 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors({
-    origin: 'http://localhost:3001',
-  });
+app.enableCors({
+  origin: [
+    'http://localhost:3001',
+    'https://taskflow-frontend-kuid.onrender.com',
+  ],
+});
 
   await app.listen(process.env.PORT ?? 3000);
 }
